@@ -1,0 +1,6 @@
+skinparam monochrome true
+skinparam backgroundColor #fff
+skinparam classBackgroundColor #000
+skinparam classAttributeFontColor #ccc
+skinparam classFontColor #fff
+skinparam arrowFontColor #fff

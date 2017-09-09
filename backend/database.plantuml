@@ -1,0 +1,56 @@
+@startuml
+!include ../skinParams.plantuml
+
+class Flipdot {
+    # id : Integer
+    # certificateSerial : String
+    # boardWidth : Integer
+    # boardHeight : Integer
+    # productionDate : DateTime
+    # hardwareRevision : String
+    # softwareVersion : String
+    # lastOnline : DateTime
+    # user : User
+    void display(buffer : FrameBuffer)
+}
+
+class User {
+    # preName : String
+    # lastName : String
+    # email : String
+    # password : String
+    # passwordHash : String
+    # registrationDate : DateTime
+    # lastLogin : DateTime
+}
+
+class Application {
+    # name : String
+    # description : String
+    # version : Integer
+    # developer : User
+    # path : String
+    # settings : ApplicationSetting[]
+}
+
+class ApplicationSetting {
+    # name : String
+    # description : String
+    type : String
+    # defaultValue : String
+    # nullable : Boolean
+}
+
+note right of ApplicationSetting: Types may be integer, boolean, string, dateTime
+
+class ApplicationUserSetting {
+    # user : User
+    # applicationSetting : ApplicationSetting
+    # value : String
+}
+
+Flipdot "*" --- "1" User : owns <
+User "1" --- "*" Application : develops >
+Application "1" - "*" ApplicationSetting : defines >
+
+@enduml
