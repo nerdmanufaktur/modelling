@@ -9,4 +9,4 @@ compile:
     script: find -type f -name "*.plantuml" -exec java -jar plantuml.jar -tsvg {} +
     artifacts:
         paths:
-        - "*.svg"
+        - "./**/*.svg"
