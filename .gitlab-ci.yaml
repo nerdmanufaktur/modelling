@@ -1,0 +1,10 @@
+before_script:
+    - apt-get update -qq
+    - apt-get install -yqq openjdk-8-jre-headless graphviz
+    - curl -L -s http://sourceforge.net/projects/plantuml/files/plantuml.jar/download > plantuml.jar
+
+compile:
+    script: find -type f -name "*.plantuml" -exec java -jar plantuml.jar -tsvg {} +
+    artifacts:
+        paths:
+        - "*.svg"

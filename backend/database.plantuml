@@ -1,5 +1,5 @@
 @startuml
-!include ../skinParams.plantuml
+!include ../skinParams.txt
 
 class Flipdot {
     # id : Integer
