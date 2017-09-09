@@ -2,7 +2,7 @@ image: ubuntu:latest
 
 before_script:
     - apt-get update -qq
-    - apt-get install -yqq openjdk-8-jre-headless graphviz
+    - apt-get install -yqq openjdk-8-jre-headless graphviz curl
     - curl -L -s http://sourceforge.net/projects/plantuml/files/plantuml.jar/download > plantuml.jar
 
 compile:
