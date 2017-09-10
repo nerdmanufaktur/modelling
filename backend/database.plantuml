@@ -1,9 +1,15 @@
 @startuml
 !include ../skinParams.txt
 
+class ObservableEntity {
+    # creationDate : DateTime
+    # lastUpdate : DateTime
+    # lastUpdatedBy : User
+}
+
 class Flipdot {
-    # id : Integer
     # certificateSerial : String
+    # mqttChannel: String
     # boardWidth : Integer
     # boardHeight : Integer
     # productionDate : DateTime
@@ -11,7 +17,17 @@ class Flipdot {
     # softwareVersion : String
     # lastOnline : DateTime
     # user : User
+    # applicationQueueItems : ApplicationQueueItem[]
     void display(buffer : FrameBuffer)
+}
+note top of Flipdot: Refers to one harware unit
+
+class ApplicationQueueItem {
+    # application : Application
+    # queueLocation : Integer
+    # isInterruptable : Boolean
+    # maxRuntime : TimeSpan
+    # flipdot : Flipdot
 }
 
 class User {
@@ -19,9 +35,11 @@ class User {
     # lastName : String
     # email : String
     # password : String
-    # passwordHash : String
-    # registrationDate : DateTime
     # lastLogin : DateTime
+    # isAdmin : Boolean
+    # isDeveloper : Boolean
+    # applications : Application[]
+    # flipdots : Flipdot[]
 }
 
 class Application {
@@ -31,26 +49,51 @@ class Application {
     # developer : User
     # path : String
     # settings : ApplicationSetting[]
+    # isVisibleInAppStore : Boolean
+    FrameBuffer run(userSettings, )
+}
+
+class ApplicationInstance {
+    # application : Application
+    # flipdot : Flipdot
+    # uuid : String
+    # settings : ApplicationInstanceSettingValue[]
 }
 
 class ApplicationSetting {
     # name : String
     # description : String
-    type : String
+    # type : String
     # defaultValue : String
     # nullable : Boolean
+    # enumerationItems : ApplicationSettingEnumerationItem[]
+    # application : Application
 }
+note bottom of ApplicationSetting: Types may be integer, boolean, string\n dateTime, enumeration
 
-note right of ApplicationSetting: Types may be integer, boolean, string, dateTime
-
-class ApplicationUserSetting {
-    # user : User
-    # applicationSetting : ApplicationSetting
+class ApplicationSettingEnumerationItem {
+    # name : String
     # value : String
 }
 
+class ApplicationInstanceSettingValue {
+    # applicationInstance : ApplicationInstance
+    # applicationSetting : ApplicationSetting
+    # value : String
+}
+ObservableEntity <|-- Flipdot
+ObservableEntity <|-- User
+ObservableEntity <|-- Application
 Flipdot "*" --- "1" User : owns <
+Flipdot "1" --- "*\n{ordered}" ApplicationQueueItem
+ApplicationQueueItem "*" --- "1" Application
 User "1" --- "*" Application : develops >
+User "*" --- "*" Application : owns >
 Application "1" - "*" ApplicationSetting : defines >
+ApplicationInstance "*" --- "1" Application : executes >
+ApplicationInstance "*" --- "1" Flipdot
+ApplicationInstance "1" --- "*" ApplicationInstanceSettingValue
+ApplicationSetting "1" --- "*" ApplicationSettingEnumerationItem
+ApplicationInstanceSettingValue "*" --- "1" ApplicationSetting
 
 @enduml
