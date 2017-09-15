@@ -18,6 +18,7 @@ class Flipdot {
     # lastOnline : DateTime
     # user : User
     # applicationQueueItems : ApplicationQueueItem[]
+    # isRunning : Boolean
     void display(buffer : FrameBuffer)
 }
 note top of Flipdot: Refers to one harware unit
