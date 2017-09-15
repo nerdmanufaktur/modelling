@@ -26,6 +26,16 @@ tags:
     externalDocs:
       description: Find out more
       url: 'https://nerdmanufaktur.berlin'
+  - name: applicationInstance
+    description: Operations about application instances
+    externalDocs:
+      description: Find out more
+      url: 'https://nerdmanufaktur.berlin'
+  - name: application
+    description: Operations about applications
+    externalDocs:
+      description: Find out more
+      url: 'https://nerdmanufaktur.berlin'
 schemes:
   - http
 paths:
@@ -407,18 +417,18 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
-  '/applicationInstance/{applicationinstanceid}' :
+  '/applicationInstance/{applicationinstanceuuid}' :
     get:
       tags:
         - applicationInstance
-      summary: Get application instance by id
+      summary: Get application instance by uuid
       description: ''
-      operationId: getApplicationInstanceById
+      operationId: getApplicationInstanceByUUID
       produces:
         - application/xml
         - application/json
       parameters:
-        - name: applicationinstanceid
+        - name: applicationinstanceuuid
           in: path
           description: 'The id that needs to be fetched.'
           required: true
@@ -442,7 +452,7 @@ paths:
         - application/xml
         - application/json
       parameters:
-        - name: applicationinstanceid
+        - name: applicationinstanceuuid
           in: path
           description: Trigger an application instances webhook. It can have multiple ones.
           required: true
@@ -450,11 +460,11 @@ paths:
       responses:
         default:
           description: successful operation
-  'application/{applicationname}' :
+  '/application/{applicationname}':
     get:
       tags:
         - application
-      summary: Get application instance by id
+      summary: Get application by name
       description: ''
       operationId: getApplicationByName
       produces:
@@ -475,7 +485,7 @@ paths:
           description: Invalid application id supplied
         '404':
           description: Application not found
-  'application/{applicationname}/applicationSetting' :
+  '/application/{applicationname}/applicationSetting':
     get:
       tags:
         - application
