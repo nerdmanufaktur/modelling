@@ -59,69 +59,6 @@ paths:
       responses:
         default:
           description: successful operation
-  /flipdot/createWithArray:
-    post:
-      tags:
-        - flipdot
-      summary: Creates list of flipdots with given input array
-      description: ''
-      operationId: createFlipdotsWithArrayInput
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: List of flipdot object
-          required: true
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Flipdot'
-      responses:
-        default:
-          description: successful operation
-  /flipdot/createWithList:
-    post:
-      tags:
-        - flipdot
-      summary: Creates list of flipdots with given input array
-      description: ''
-      operationId: createFlipdotsWithListInput
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: List of flipdots object
-          required: true
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Flipdot'
-      responses:
-        default:
-          description: successful operation
-  '/flipdot/{flipdotid}/sendFrame':
-    post:
-      tags:
-        - flipdot
-      summary: Displays frame on display
-      description: ''
-      operationId: sendFrameToFLipdot
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: flipdotid
-          in: path
-          description: Send frame to flipdot. User needs to own flipdot.
-          required: true
-          type: string
-      responses:
-        default:
-          description: successful operation
   '/flipdot/{flipdotid}/start':
     post:
       tags:
@@ -251,50 +188,6 @@ paths:
       responses:
         default:
           description: successful operation
-  /user/createWithArray:
-    post:
-      tags:
-        - user
-      summary: Creates list of users with given input array
-      description: ''
-      operationId: createUsersWithArrayInput
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: List of user object
-          required: true
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/User'
-      responses:
-        default:
-          description: successful operation
-  /user/createWithList:
-    post:
-      tags:
-        - user
-      summary: Creates list of users with given input array
-      description: ''
-      operationId: createUsersWithListInput
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: List of user object
-          required: true
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/User'
-      responses:
-        default:
-          description: successful operation
   /user/login:
     get:
       tags:
@@ -417,7 +310,7 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
-  '/applicationInstance/{applicationinstanceuuid}' :
+  '/applicationInstance/{applicationinstanceuuid}':
     get:
       tags:
         - applicationInstance
@@ -430,7 +323,7 @@ paths:
       parameters:
         - name: applicationinstanceuuid
           in: path
-          description: 'The id that needs to be fetched.'
+          description: The id that needs to be fetched.
           required: true
           type: string
       responses:
@@ -454,7 +347,7 @@ paths:
       parameters:
         - name: applicationinstanceuuid
           in: path
-          description: Trigger an application instances webhook. It can have multiple ones.
+          description: Trigger an application instances webhook. It can have multiple ones. The post data is sent to the app unchanged.
           required: true
           type: string
       responses:
@@ -473,7 +366,7 @@ paths:
       parameters:
         - name: applicationname
           in: path
-          description: 'The name that needs to be fetched.'
+          description: The name that needs to be fetched.
           required: true
           type: string
       responses:
@@ -498,7 +391,7 @@ paths:
       parameters:
         - name: applicationname
           in: path
-          description: 'The name of settings application that needs to be fetched.'
+          description: The name of settings application that needs to be fetched.
           required: true
           type: string
       responses:
@@ -578,13 +471,13 @@ definitions:
       application:
         $ref: '#/definitions/Application'
       flipdot:
-         $ref: '#/definitions/Flipdot'
+        $ref: '#/definitions/Flipdot'
       uuid:
         type: string
       settings:
         type: array
         items:
-           $ref: '#/definitions/ApplicationInstanceSettingValue'
+          $ref: '#/definitions/ApplicationInstanceSettingValue'
     xml:
       name: ApplicationInstance
   ApplicationInstanceSettingValue:
@@ -596,7 +489,7 @@ definitions:
       application:
         $ref: '#/definitions/ApplicationInstance'
       applicationSetting:
-         $ref: '#/definitions/ApplicationSetting'
+        $ref: '#/definitions/ApplicationSetting'
       value:
         type: string
     xml:
@@ -620,9 +513,9 @@ definitions:
       enumerationItems:
         type: array
         items:
-           $ref: '#/definitions/ApplicationSettingEnumerationItem'
+          $ref: '#/definitions/ApplicationSettingEnumerationItem'
       application:
-          $ref: '#/definitions/Application'
+        $ref: '#/definitions/Application'
     xml:
       name: ApplicationSetting
   ApplicationSettingEnumerationItem:
