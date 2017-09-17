@@ -126,7 +126,7 @@ paths:
       tags:
         - flipdot
       summary: Updated flipdot
-      description: This can only be done by the logged in user.
+      description: This can only be done by the logged in user for flipdots he owns except for admins.
       operationId: updateFlipdot
       produces:
         - application/xml
@@ -169,6 +169,24 @@ paths:
         '404':
           description: Flipdot not found
   /user:
+    get:
+      tags:
+        - user
+      summary: Get currently logged in user
+      description: This can only be done by the logged in user.
+      operationId: getLoggedInUser
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
     post:
       tags:
         - user
@@ -181,78 +199,27 @@ paths:
       parameters:
         - in: body
           name: body
-          description: Created user object
+          description: Created user object. Only admins can do this.
           required: true
           schema:
             $ref: '#/definitions/User'
       responses:
         default:
           description: successful operation
-  /user/login:
-    get:
-      tags:
-        - user
-      summary: Logs user into the system
-      description: ''
-      operationId: loginUser
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: username
-          in: query
-          description: The user name for login
-          required: true
-          type: string
-        - name: password
-          in: query
-          description: The password for login in clear text
-          required: true
-          type: string
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            type: string
-          headers:
-            X-Rate-Limit:
-              type: integer
-              format: int32
-              description: calls per hour allowed by the user
-            X-Expires-After:
-              type: string
-              format: date-time
-              description: date in UTC when token expires
-        '400':
-          description: Invalid username/password supplied
-  /user/logout:
-    get:
-      tags:
-        - user
-      summary: Logs out current logged in user session
-      description: ''
-      operationId: logoutUser
-      produces:
-        - application/xml
-        - application/json
-      parameters: []
-      responses:
-        default:
-          description: successful operation
-  '/user/{username}':
+  '/user/{userid}':
     get:
       tags:
         - user
       summary: Get user by user name
-      description: ''
+      description: Except for admins only the logged in user can be fetched.
       operationId: getUserByName
       produces:
         - application/xml
         - application/json
       parameters:
-        - name: username
+        - name: userid
           in: path
-          description: 'The name that needs to be fetched. Use user1 for testing. '
+          description: The user id that needs to be fetched.
           required: true
           type: string
       responses:
@@ -268,15 +235,15 @@ paths:
       tags:
         - user
       summary: Updated user
-      description: This can only be done by the logged in user.
+      description: This can only be done by the logged in user for himself except for admins.
       operationId: updateUser
       produces:
         - application/xml
         - application/json
       parameters:
-        - name: username
+        - name: userid
           in: path
-          description: name that need to be updated
+          description: The user id that need to be updated.
           required: true
           type: string
         - in: body
@@ -300,9 +267,9 @@ paths:
         - application/xml
         - application/json
       parameters:
-        - name: username
+        - name: userid
           in: path
-          description: The name that needs to be deleted
+          description: The user id that needs to be deleted. A cascading deletion process is triggered. All corresponding flipdots and application instances are deleted as well. Developer accounts can't be deleted via the API.
           required: true
           type: string
       responses:
@@ -347,7 +314,7 @@ paths:
       parameters:
         - name: applicationinstanceuuid
           in: path
-          description: Trigger an application instances webhook. It can have multiple ones. The post data is sent to the app unchanged.
+          description: Trigger an application instances webhook. It can have multiple ones. The post data is sent to the app unchanged. Also there's no authentication required for this call.
           required: true
           type: string
       responses:
